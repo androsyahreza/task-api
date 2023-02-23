@@ -1,0 +1,265 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0", 
+    "title": "Task API",
+    "description": "Task-api is a RESTful API that allows the user to add, view, update, and delete task",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "paths": {
+    "/tasks": {
+      "post" : {
+        "tags": ["Tasks"],
+        "summary": "Add new task",
+        "description": "Add new task",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters" : [ {
+          "name": "input",
+          "in": "body",
+          "description": "Detail Task that we want to add, consists of title, description, and is_finished (default:false)",
+          "schema": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "500": {
+            "description": "INTERNAL_SERVER_ERROR",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "View all tasks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ViewTasks"
+            }
+          },
+          "500": {
+            "description": "INTERNAL_SERVER_ERROR",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    }, 
+    "/tasks/{id}" : {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get a task by id",
+        "parameters": [ {
+            "name" : "id",
+            "in" : "path",
+            "description" : "numeric id of the task to get",
+            "schema" : {
+              "type" : "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ViewTaskById"
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "INTERNAL_SERVER_ERROR",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update existing task by id",
+        "description": "Update existing task",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "numeric id of the task to update",
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name": "input",
+          "in": "body",
+          "description": "Detail Task that we want to update, consists of title, description, and is_finished",
+          "schema": {
+            "$ref": "#/definitions/Task"
+        }
+      }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "INTERNAL_SERVER_ERROR",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete a task by id",
+        "parameters": [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "numeric id of the task to delete",
+          "schema" : {
+            "type" : "integer"
+          }
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "INTERNAL_SERVER_ERROR",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ViewTaskById" : {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "is_finished": {
+                "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "ViewTasks": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "is_finished": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Task" : {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "is_finished": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Response": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"]
+}
