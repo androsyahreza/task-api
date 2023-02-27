@@ -19,6 +19,9 @@ This app built with ExpressJS and MySQL.
  
 * Logging:
   - [x]  Morgan.js is used in this app, morgan generates HTTP request logs that include details such as the request method, URL, response status code, and response time.
+  
+* Unit Testing:
+  - [x]  Mocha, chai, and supertest is used in this app, Chai is an assertion library that is mostly used alongside Mocha. SuperTest makes a request to host and endpoint, and saves the response in the response variable.
 
 * Documentation:
   - [x]  Swagger is used in this app, swagger helps API documentation to be more readable and provides a web-based testing API tools.
@@ -69,4 +72,10 @@ sequelize db:migrate
 after that, you can run the app by entering code bellow:
 ```
 $ npm start
+```
+In addition, if you want to do unit test, you can run the code bellow 
+
+*make sure the application is not running while testing, if it is run the ports will overlap each other*
+```
+$ mocha
 ```
